@@ -24,6 +24,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
+import { useAuth, useClerk } from "@clerk/nextjs";
 
 const primaryNavs: Nav[] = [
   {
@@ -32,15 +33,15 @@ const primaryNavs: Nav[] = [
     icon: Home,
   },
   {
-    title: "Trending",
-    url: "/trending",
-    icon: Flame,
-  },
-  {
     title: "Subscriptions",
     url: "/supscriptions",
     icon: PlayCircle,
     auth: true,
+  },
+  {
+    title: "Trending",
+    url: "/trending",
+    icon: Flame,
   },
 ];
 
@@ -67,6 +68,8 @@ const personalNavs: Nav[] = [
 
 export const AppSidebar = () => {
   const { toggleSidebar } = useSidebar();
+  const clerk = useClerk();
+  const { isSignedIn } = useAuth();
   return (
     <Sidebar collapsible="icon" className="!bg-background !border-r-0">
       <SidebarHeader className="mb-4">
@@ -97,6 +100,12 @@ export const AppSidebar = () => {
                       isActive={false}
                       tooltip={nav.title}
                       asChild
+                      onClick={(e) => {
+                        if (!isSignedIn && nav.auth) {
+                          e.preventDefault();
+                          return clerk.openSignIn();
+                        }
+                      }}
                     >
                       <Link href={nav.url}>
                         <Icon className="!size-5" />
@@ -122,6 +131,12 @@ export const AppSidebar = () => {
                       isActive={false}
                       tooltip={nav.title}
                       asChild
+                      onClick={(e) => {
+                        if (!isSignedIn) {
+                          e.preventDefault();
+                          return clerk.openSignIn();
+                        }
+                      }}
                     >
                       <Link href={nav.url}>
                         <Icon className="!size-5" />

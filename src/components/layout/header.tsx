@@ -5,14 +5,19 @@ import Image from "next/image";
 import { AlignJustify } from "lucide-react";
 import { SearchInput } from "./search-input";
 import { AuthButton } from "./auth-button";
+import { useSidebar } from "../ui/sidebar";
 
 export const Header = () => {
+  const { toggleSidebar } = useSidebar();
   return (
-    <header className="sticky top-0 inset-x-0 h-16 bg-white p-2 pr-5 z-50">
+    <header className="fixed w-full top-0 inset-x-0 h-16 bg-white p-2 pr-5 z-50">
       <div className="flex items-center gap-x-4 w-full">
         {/* Menu and logo */}
         <div className="flex items-center flex-shrink-0 gap-x-2">
-          <button>
+          <button
+            className="size-8 flex items-center justify-center"
+            onClick={toggleSidebar}
+          >
             <AlignJustify />
           </button>
           <Link href="/">

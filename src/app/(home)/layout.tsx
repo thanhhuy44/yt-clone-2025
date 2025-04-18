@@ -6,13 +6,13 @@ import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 
 const MainLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   return (
-    <div>
-      <Header />
-      <SidebarProvider>
-        <AppSidebar />
-        <SidebarInset>{children}</SidebarInset>
-      </SidebarProvider>
-    </div>
+    <SidebarProvider>
+      <AppSidebar />
+      <SidebarInset className="pt-16">
+        <Header />
+        {children}
+      </SidebarInset>
+    </SidebarProvider>
   );
 };
 
