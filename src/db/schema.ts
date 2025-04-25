@@ -71,13 +71,13 @@ export const videos = pgTable("videos", {
   }),
   createdAt: timestamp("created_at", {
     withTimezone: true,
-    mode: "string",
+    mode: "date",
   })
     .defaultNow()
     .notNull(),
   updatedAt: timestamp("updated_at", {
     withTimezone: true,
-    mode: "string",
+    mode: "date",
   })
     .defaultNow()
     .notNull(),

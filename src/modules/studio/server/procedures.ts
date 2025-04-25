@@ -19,6 +19,7 @@ export const studioRouter = createTRPCRouter({
     )
     .query(async ({ ctx, input }) => {
       const { limit, cursor } = input;
+      console.log("🚀 ~ .query ~ cursor:", cursor)
       const { id: userId } = ctx.user;
       const data = await db
         .select()
@@ -28,9 +29,9 @@ export const studioRouter = createTRPCRouter({
             eq(videos.userId, userId),
             cursor
               ? or(
-                  lt(videos.updatedAt, cursor.updatedAt.toString()),
+                  lt(videos.updatedAt, cursor.updatedAt),
                   and(
-                    eq(videos.updatedAt, cursor.updatedAt.toString()),
+                    eq(videos.updatedAt, cursor.updatedAt),
                     lt(videos.id, cursor.id)
                   )
                 )
