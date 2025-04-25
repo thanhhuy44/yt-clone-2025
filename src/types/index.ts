@@ -4,6 +4,12 @@ export type LayoutProps = {
     children: React.ReactNode;
 }
 
+export type PageProps = {
+    searchParams:  Promise<{
+        [key:string]: string | undefined
+    }>
+}
+
 export type Nav = {
     title: string,
     url: string,

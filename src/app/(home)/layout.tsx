@@ -1,19 +1,7 @@
-"use client";
+import HomeLayout from "@/modules/home/ui/layouts/home-layout";
 
-import { AppSidebar } from "@/components/layout/app-sidebar";
-import { Header } from "@/components/layout/header";
-import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
-
-const MainLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  return (
-    <SidebarProvider>
-      <AppSidebar />
-      <SidebarInset className="pt-16">
-        <Header />
-        {children}
-      </SidebarInset>
-    </SidebarProvider>
-  );
+const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  return <HomeLayout>{children}</HomeLayout>;
 };
 
-export default MainLayout;
+export default Layout;

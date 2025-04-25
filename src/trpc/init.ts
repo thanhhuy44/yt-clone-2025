@@ -9,7 +9,7 @@ import superjson from "superjson";
 
 export const createTRPCContext = cache(async () => {
   const { userId } = await auth();
-  return { clerkUserId: userId };
+  return { clerkId: userId };
 });
 
 export type Context = Awaited<ReturnType<typeof createTRPCContext>>;
@@ -29,7 +29,7 @@ export const createTRPCRouter = t.router;
 export const createCallerFactory = t.createCallerFactory;
 export const baseProcedure = t.procedure;
 export const protectedProcedure = t.procedure.use(async ({ ctx, next }) => {
-  if (!ctx.clerkUserId) {
+  if (!ctx.clerkId) {
     throw new TRPCError({
       message: "Unauthorized",
       code: "UNAUTHORIZED",
@@ -39,7 +39,7 @@ export const protectedProcedure = t.procedure.use(async ({ ctx, next }) => {
   const user = await db
     .select()
     .from(users)
-    .where(eq(users.clerkId, ctx.clerkUserId))
+    .where(eq(users.clerkId, ctx.clerkId))
     .limit(1)
     .then((users) => users[0]);
 
@@ -49,12 +49,13 @@ export const protectedProcedure = t.procedure.use(async ({ ctx, next }) => {
       code: "UNAUTHORIZED",
     });
 
-  const {success} = await ratelimit.limit(user.id);
+  const { success } = await ratelimit.limit(user.id);
 
-  if (!success) throw new TRPCError({
-    message: "Too many requests",
-    code: "TOO_MANY_REQUESTS",
-  });
+  if (!success)
+    throw new TRPCError({
+      message: "Too many requests",
+      code: "TOO_MANY_REQUESTS",
+    });
 
   return next({
     ctx: {

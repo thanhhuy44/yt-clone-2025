@@ -6,15 +6,12 @@ import {
   SidebarGroup,
   SidebarGroupContent,
   SidebarGroupLabel,
-  SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarSeparator,
-  useSidebar,
-} from "../ui/sidebar";
+} from "@/components/ui/sidebar";
 import {
-  AlignJustify,
   Flame,
   History,
   Home,
@@ -23,7 +20,6 @@ import {
   ThumbsUp,
 } from "lucide-react";
 import Link from "next/link";
-import Image from "next/image";
 import { useAuth, useClerk } from "@clerk/nextjs";
 
 const primaryNavs: Nav[] = [
@@ -66,28 +62,14 @@ const personalNavs: Nav[] = [
   },
 ];
 
-export const AppSidebar = () => {
-  const { toggleSidebar } = useSidebar();
+export const HomeSidebar = () => {
   const clerk = useClerk();
   const { isSignedIn } = useAuth();
   return (
-    <Sidebar collapsible="icon" className="!bg-background !border-r-0">
-      <SidebarHeader className="mb-4">
-        <div className="py-2 px-2 flex items-center flex-shrink-0 gap-x-2">
-          <button onClick={toggleSidebar}>
-            <AlignJustify />
-          </button>
-          <Link href="/">
-            <Image
-              src="/logo.png"
-              width={120}
-              height={60}
-              alt="Youtube logo"
-              className=""
-            />
-          </Link>
-        </div>
-      </SidebarHeader>
+    <Sidebar
+      collapsible="icon"
+      className="!bg-background !border-r-0 pt-[4rem]"
+    >
       <SidebarContent>
         <SidebarGroup>
           <SidebarGroupContent>
