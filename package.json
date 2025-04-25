@@ -3,10 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev:all": "concurrently \"bun dev\" \"bun dev:webhook\"",
-    "dev": "next dev",
-    "dev:webhook": "ngrok http --url=fit-hen-concise.ngrok-free.app 3000",
-    "build": "next build",
+    "dev": "next dev --turbopack",
+    "build": "next build --turbopack",
     "start": "next start",
     "lint": "next lint"
   },
