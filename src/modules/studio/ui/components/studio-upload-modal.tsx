@@ -1,9 +1,11 @@
 "use client";
 
+import { ResponsiveDialog } from "@/components/responsive-dialog";
 import { Button } from "@/components/ui/button";
 import { trpc } from "@/trpc/client";
 import { Loader2, Plus } from "lucide-react";
 import { toast } from "sonner";
+import { StudioUploader } from "./studio-uploader";
 
 export const StudioUploadModal = () => {
   const utils = trpc.useUtils();
@@ -15,7 +17,14 @@ export const StudioUploadModal = () => {
   });
 
   return (
-    <div>
+    <>
+      <ResponsiveDialog
+        title="Upload video"
+        open={!!create.data?.url}
+        onOpenChange={() => create.reset()}
+      >
+        <StudioUploader endpoint={create.data?.url} onSuccess={() => {}} />
+      </ResponsiveDialog>
       <Button
         onClick={() => create.mutate()}
         variant="secondary"
@@ -24,6 +33,6 @@ export const StudioUploadModal = () => {
         {create.isPending ? <Loader2 className="animate-spin" /> : <Plus />}
         <span>Create</span>
       </Button>
-    </div>
+    </>
   );
 };
