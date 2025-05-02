@@ -7,6 +7,7 @@ import {
   timestamp,
   uniqueIndex,
   integer,
+  pgEnum,
 } from "drizzle-orm/pg-core";
 
 export const users = pgTable(
@@ -29,13 +30,13 @@ export const users = pgTable(
     })
       .defaultNow()
       .notNull(),
-  },(
+  },
   (t) => [uniqueIndex("clerk_id_idx").on(t.clerkId)]
-))
+);
 
-export const userRelations = relations(users, ({many}) => ({
-  videos: many(videos)
-}))
+export const userRelations = relations(users, ({ many }) => ({
+  videos: many(videos),
+}));
 
 export const categories = pgTable(
   "categories",
@@ -59,6 +60,11 @@ export const categories = pgTable(
   (t) => [uniqueIndex("name_idx").on(t.name)]
 );
 
+export const videoVisibility = pgEnum("video_visibility", [
+  "public",
+  "private",
+]);
+
 export const videos = pgTable("videos", {
   id: uuid("id").primaryKey().defaultRandom(),
   title: text("title").notNull(),
@@ -71,13 +77,14 @@ export const videos = pgTable("videos", {
   muxTrackStatus: text("mux_track_status"),
   thumbnailUrl: text("thumbnail_url"),
   previewUrl: text("preview_url"),
-  duration: integer("duration"),
+  duration: integer("duration").notNull().default(0),
+  visibility: videoVisibility("visibility").notNull().default("private"),
   url: text("url").notNull(),
   userId: uuid("user_id").references(() => users.id, {
     onDelete: "cascade",
   }),
   categoryId: uuid("category_id").references(() => categories.id, {
-    onDelete: "set null"
+    onDelete: "set null",
   }),
   createdAt: timestamp("created_at", {
     withTimezone: true,

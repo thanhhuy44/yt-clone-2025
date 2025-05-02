@@ -2,14 +2,17 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   /* config options here */
-  images:{
-    remotePatterns:[
+  images: {
+    remotePatterns: [
       {
-        protocol: "https",
-        hostname: "iamge.mux.com",
-      }
-    ]
-  }  
+        protocol: 'https',
+        hostname: 'image.mux.com',
+        port: '',
+        pathname: '',
+        search: '',
+      },
+    ],
+  },
 };
 
 export default nextConfig;

@@ -10,8 +10,11 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { DEFAULT_LIMIT } from "@/constants";
+import { snakeCaseToTitle } from "@/lib/utils";
 import { VideoThumbnail } from "@/modules/videos/ui/components/video-thumbnail";
 import { trpc } from "@/trpc/client";
+import { format } from "date-fns";
+import { Globe, Lock } from "lucide-react";
 import Link from "next/link";
 import { Suspense } from "react";
 import { ErrorBoundary } from "react-error-boundary";
@@ -48,8 +51,8 @@ const VideosSectionSuspense = () => {
                 <Link
                   key={video.id}
                   href={`/studio/videos/${video.id}`}
-                  legacyBehavior
                   className="block"
+                  legacyBehavior
                 >
                   <TableRow className="cursor-pointer">
                     <TableCell>
@@ -62,12 +65,33 @@ const VideosSectionSuspense = () => {
                             previewUrl={video.previewUrl!}
                           />
                         </div>
-                        <div>{video.title}</div>
+                        <div className="space-y-1">
+                          <h5 className="text-sm font-medium line-clamp-1">
+                            {video.title}
+                          </h5>
+                          <p className="text-xs text-muted-foreground line-clamp-2">
+                            {video.description || "No description"}
+                          </p>
+                        </div>
                       </div>
                     </TableCell>
-                    <TableCell>Visibility</TableCell>
-                    <TableCell>Status</TableCell>
-                    <TableCell>Date</TableCell>
+                    <TableCell>
+                      <div className="flex items-center ">
+                        {video.visibility === "private" ? (
+                          <Lock className="size-4" />
+                        ) : (
+                          <Globe className="size-4" />
+                        )}
+                      </div>
+                    </TableCell>
+                    <TableCell>
+                      <div className="flex items-center">
+                        {snakeCaseToTitle(video.muxStatus)}
+                      </div>
+                    </TableCell>
+                    <TableCell className="text-sm truncate">
+                      {format(new Date(video.createdAt), "d MMM yyyy")}
+                    </TableCell>
                     <TableCell className="text-right">Views</TableCell>
                     <TableCell className="text-right">Comments</TableCell>
                     <TableCell className="text-right">Likes</TableCell>
