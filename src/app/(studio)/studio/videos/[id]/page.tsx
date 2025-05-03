@@ -7,6 +7,7 @@ export const dynamic = "force-dynamic";
 async function Page({ params }: PageProps) {
   const { id } = await params;
   void trpc.studio.getOne.prefetch({ id });
+  void trpc.categories.getMany.prefetch();
 
   return <VideoView id={id} />;
 }

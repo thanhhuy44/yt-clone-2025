@@ -6,8 +6,10 @@ import { trpc } from "@/trpc/client";
 import { Loader2, Plus } from "lucide-react";
 import { toast } from "sonner";
 import { StudioUploader } from "./studio-uploader";
+import { useRouter } from "next/navigation";
 
 export const StudioUploadModal = () => {
+  const router = useRouter();
   const utils = trpc.useUtils();
   const create = trpc.videos.create.useMutation({
     onSuccess: () => {
@@ -16,6 +18,12 @@ export const StudioUploadModal = () => {
     },
   });
 
+  const onSuccess = () => {
+    if (!create.data?.video.id) return;
+
+    create.reset();
+    router.push(`/studio/videos/${create.data?.video.id}`);
+  };
   return (
     <>
       <ResponsiveDialog
@@ -23,7 +31,7 @@ export const StudioUploadModal = () => {
         open={!!create.data?.url}
         onOpenChange={() => create.reset()}
       >
-        <StudioUploader endpoint={create.data?.url} onSuccess={() => {}} />
+        <StudioUploader endpoint={create.data?.url} onSuccess={onSuccess} />
       </ResponsiveDialog>
       <Button
         onClick={() => create.mutate()}
