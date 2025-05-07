@@ -14,8 +14,11 @@ import {
   Copy,
   CopyCheck,
   Globe,
+  ImagePlus,
   Lock,
   MoreVertical,
+  RotateCcw,
+  Sparkle,
   Trash,
 } from "lucide-react";
 import { Suspense, useState } from "react";
@@ -44,6 +47,8 @@ import { VideoPlayer } from "@/modules/videos/ui/components/video-player";
 import Link from "next/link";
 import { snakeCaseToTitle } from "@/lib/utils";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
+import { DEFAULT_THUMBNAIL } from "@/constants";
 
 type Props = {
   id: string;
@@ -159,6 +164,50 @@ const FormSectionSuspense = ({ id }: Props) => {
               )}
             />
             {/* TODO: Add video thumbnail here */}
+            <FormField
+              control={form.control}
+              name="thumbnailUrl"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Thumbnail</FormLabel>
+                  <FormControl>
+                    <div
+                      className="p-0.5 rounded-md border border-dashed border-neutral-400
+                    w-[153px] group relative h-[84px]"
+                    >
+                      <Image src={DEFAULT_THUMBNAIL} fill alt={video.title} />
+                      <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                          <Button
+                            type="button"
+                            size={"icon"}
+                            className=" absolute top-1 right-1 duration-150 size-7 md:opacity-0 group-hover:opacity-100"
+                          >
+                            <MoreVertical className="size text-white-" />
+                          </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="start" side="right">
+                          <DropdownMenuItem>
+                            <ImagePlus className="mr-1 size-4" />
+                            Change
+                          </DropdownMenuItem>
+                          <DropdownMenuItem>
+                            <Sparkle className="mr-1 size-4" />
+                            AI-generated
+                          </DropdownMenuItem>
+                          <DropdownMenuItem>
+                            <RotateCcw className="mr-1 size-4" />
+                            Restore
+                          </DropdownMenuItem>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+                    </div>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            {/*  */}
             <FormField
               control={form.control}
               name="description"

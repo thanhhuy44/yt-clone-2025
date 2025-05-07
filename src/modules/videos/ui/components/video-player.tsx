@@ -1,5 +1,6 @@
 "use client";
 
+import { DEFAULT_THUMBNAIL } from "@/constants";
 import MuxPlayer from "@mux/mux-player-react";
 
 type Props = {
@@ -10,7 +11,7 @@ type Props = {
 };
 export const VideoPlayer = ({
   playbackId = "",
-  thumbnailUrl = "/placeholder.svg",
+  thumbnailUrl = DEFAULT_THUMBNAIL,
   autoPlay = true,
   onPlay = () => {},
 }: Props) => {

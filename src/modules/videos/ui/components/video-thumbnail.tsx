@@ -1,3 +1,4 @@
+import { DEFAULT_THUMBNAIL } from "@/constants";
 import { formatDuration } from "@/lib/utils";
 import Image from "next/image";
 
@@ -8,7 +9,7 @@ type VideoThumbnailProps = {
   previewUrl?: string;
 };
 export const VideoThumbnail = ({
-  imageUrl = "/placeholder.svg",
+  imageUrl = DEFAULT_THUMBNAIL,
   previewUrl,
   duration,
 }: VideoThumbnailProps) => {
@@ -20,7 +21,7 @@ export const VideoThumbnail = ({
       <div className="relative w-full overflow-hidden rounded-xl aspect-video">
         <Image
           // src={imageUrl}
-          src={"/placeholder.svg"}
+          src={DEFAULT_THUMBNAIL}
           alt="video thumbnail"
           fill
           className="size-full object-cover object-center group-hover:opacity-0"
@@ -28,7 +29,7 @@ export const VideoThumbnail = ({
         {previewUrl ? (
           <Image
             // src={previewUrl}
-            src={"/placeholder.svg"}
+            src={DEFAULT_THUMBNAIL}
             alt="video preview"
             fill
             className="size-full object-cover object-center opacity-0 group-hover:opacity-100"
